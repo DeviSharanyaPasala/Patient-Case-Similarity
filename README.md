@@ -1,24 +1,33 @@
 # Patient Case Similarity
 
-I built this to explore whether you could use NLP techniques on structured medical data by first converting it into text, then treating it like a document similarity problem.
+An NLP system that finds similar patient cases using TF-IDF and cosine similarity, built on the South African Heart Disease dataset. The goal is to surface historical cases with similar risk profiles given a new patient input.
 
-The dataset is the South African Heart Disease (SAHeart) dataset - 462 patients with features like blood pressure, LDL cholesterol, tobacco use, obesity, and age. I converted each patient record into a short medical note, ran TF-IDF on it, and used cosine similarity to find patients with similar profiles.
+## How it works
 
-K-Means clustering then grouped patients into risk tiers, and PCA brought it down to 2D so the clusters are actually visible. There's also a small Flask API that takes a patient profile as input and returns the most similar cases.
+Structured patient records are converted into short text descriptions to simulate medical notes. TF-IDF vectorization extracts features from the text after NLTK preprocessing. Cosine similarity then measures how close any two patient profiles are. K-Means clustering groups patients into risk tiers, and PCA reduces the feature space to 2D for visualization. A Flask API prototype allows querying for the most similar cases given a new patient input.
 
-## What's in the notebook
+## Model
 
-- Data loading and preprocessing from the SAHeart CSV
-- Converting structured rows into unstructured text records
-- TF-IDF vectorization with NLTK preprocessing
-- Pairwise cosine similarity computation
-- K-Means clustering with PCA visualization
-- Flask API prototype for case retrieval
+- Text representation: TF-IDF vectorization
+- Similarity metric: Cosine similarity
+- Clustering: K-Means (3 clusters: high, moderate, low risk)
+- Visualization: PCA (2 components)
+- API: Flask
 
 ## Dataset
 
-SAHeart dataset - 462 records, 9 clinical features, binary label for heart disease presence.
+South African Heart Disease (SAHeart) dataset.
+- 462 patient records
+- Features: systolic blood pressure, tobacco use, LDL cholesterol, adiposity, family history, type A behavior, obesity, alcohol use, age
+- Label: binary (1 = coronary heart disease present, 0 = absent)
+
+## Results
+
+- Cosine similarity successfully identified patients with shared cardiovascular risk factors
+- K-Means clustering produced three interpretable patient subgroups
+- PCA visualization clearly shows separation between risk groups
+- Flask API returns top similar cases for a given patient profile
 
 ## Stack
 
-Python, Pandas, Scikit-learn, NLTK, Flask, Matplotlib
+Python, Pandas, NumPy, Scikit-learn, NLTK, Flask, Matplotlib
