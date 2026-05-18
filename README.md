@@ -17,7 +17,7 @@ K-Means clustering then grouped patients into risk tiers, and PCA brought it dow
 
 ## Dataset
 
-SAHeart dataset — 462 records, 9 clinical features, binary label for heart disease presence.
+SAHeart dataset - 462 records, 9 clinical features, binary label for heart disease presence.
 
 ## Stack
 
