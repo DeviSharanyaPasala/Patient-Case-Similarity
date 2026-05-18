@@ -1,33 +1,50 @@
 # Patient Case Similarity
 
-An NLP system that finds similar patient cases using TF-IDF and cosine similarity, built on the South African Heart Disease dataset. The goal is to surface historical cases with similar risk profiles given a new patient input.
+Finding similar patient cases from medical records using NLP and clustering, built on the South African Heart Disease dataset.
+
+The approach converts structured patient records into text descriptions, runs TF-IDF vectorization, and uses cosine similarity to find patients with matching risk profiles. K-Means then groups patients into clusters and a set of classifiers predict heart disease presence.
 
 ## How it works
 
-Structured patient records are converted into short text descriptions to simulate medical notes. TF-IDF vectorization extracts features from the text after NLTK preprocessing. Cosine similarity then measures how close any two patient profiles are. K-Means clustering groups patients into risk tiers, and PCA reduces the feature space to 2D for visualization. A Flask API prototype allows querying for the most similar cases given a new patient input.
-
-## Model
-
-- Text representation: TF-IDF vectorization
-- Similarity metric: Cosine similarity
-- Clustering: K-Means (3 clusters: high, moderate, low risk)
-- Visualization: PCA (2 components)
-- API: Flask
+- Each patient record is converted into a medical note style text description
+- Text is cleaned and vectorized using TF-IDF
+- Cosine similarity matrix (462x462) finds the most similar cases for any given patient
+- K-Means clustering groups patients into 4 risk profiles
+- Multiple classifiers are trained to predict coronary heart disease
 
 ## Dataset
 
-South African Heart Disease (SAHeart) dataset.
-- 462 patient records
-- Features: systolic blood pressure, tobacco use, LDL cholesterol, adiposity, family history, type A behavior, obesity, alcohol use, age
-- Label: binary (1 = coronary heart disease present, 0 = absent)
+South African Heart Disease (SAHeart) dataset. 462 patients, features include systolic blood pressure, LDL cholesterol, tobacco use, obesity, adiposity, type A behavior score, alcohol intake, family history, and age. Binary label for coronary heart disease presence.
 
 ## Results
 
-- Cosine similarity successfully identified patients with shared cardiovascular risk factors
-- K-Means clustering produced three interpretable patient subgroups
-- PCA visualization clearly shows separation between risk groups
-- Flask API returns top similar cases for a given patient profile
+**Classifier comparison:**
+
+| Model | Accuracy | F1-Score | AUC |
+|-------|----------|----------|-----|
+| Logistic Regression | 0.7634 | 0.6333 | 0.8006 |
+| Gradient Boosting | 0.7312 | 0.5763 | 0.7448 |
+| Random Forest | 0.7097 | 0.5574 | 0.7301 |
+| K-Nearest Neighbors | 0.6559 | 0.3846 | 0.6261 |
+| Support Vector Machine | 0.6452 | 0.1081 | 0.6839 |
+| Decision Tree | 0.6022 | 0.4638 | 0.5743 |
+
+Logistic Regression performed best with 76.3% accuracy and AUC of 0.80.
+
+**Clustering (K-Means, 4 clusters, Silhouette Score: 0.0111):**
+
+- Cluster 0: High CHD risk, elevated blood pressure, high LDL, high tobacco use, increased alcohol intake
+- Cluster 1: Low risk
+- Cluster 2: High CHD risk, elevated blood pressure, high tobacco use
+- Cluster 3: High LDL, high tobacco use, increased alcohol intake
+
+## How to run
+
+```bash
+pip install -r requirements.txt
+jupyter notebook Patient_Case_Similarity.ipynb
+```
 
 ## Stack
 
-Python, Pandas, NumPy, Scikit-learn, NLTK, Flask, Matplotlib
+Python, Pandas, Scikit-learn, NLTK, Seaborn, Matplotlib
